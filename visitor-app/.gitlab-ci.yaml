@@ -1,0 +1,41 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  TF_VAR_gitlab_token: ${GITLAB_ACCESS_TOKEN}
+  AWS_ACCESS_KEY_ID: ${MY_AWS_KEY}
+  AWS_SECRET_ACCESS_KEY : ${MY_AWS_ACCESS_KEY}
+  AWS_DEFAULT_REGION: "ap-southeast-1"
+  ENVIRONMENT: "dev"
+  CONTAINER_TAG: ${CI_COMMIT_SHORT_SHA}
+  REPO_DOCKERHUB: ${CI_REGISTRY_USER}/flask-app
+
+stages:
+  - build
+  - deploy-app
+  - deploy-redis
+
+build:
+  stage: build
+  before_script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+  script:
+    - docker build -t ${REPO_DOCKERHUB}:${CONTAINER_TAG} .
+    - docker tag ${REPO_DOCKERHUB}:${CONTAINER_TAG} ${REPO_DOCKERHUB}:${CONTAINER_TAG}
+    - docker tag ${REPO_DOCKERHUB}:${CONTAINER_TAG} ${CI_REGISTRY_USER}/flask-app:latest
+    - docker push ${REPO_DOCKERHUB}:${CONTAINER_TAG}
+  
+deploy-app:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  script:
+    - kubectl config set-cluster k8s --server="${SERVER}"
+    - kubectl config set clusters.k8s.certificate-authority-data ${CERTIFICATE_AUTHORITY_DATA}
+    - kubectl config set-credentials gitlab --token="${USER_TOKEN}"
+    - kubectl config set-context default --cluster=k8s --user=gitlab
+    - kubectl config use-context default
+   # - helm install visitor-chart visitarapp/ --values visitarapp/values.yaml
+    - helm upgrade visitor-chart ./visitarapp --install --set deployment.image.tag=${CI_COMMIT_SHORT_SHA}
+  only:
+   - main
