@@ -1,4 +1,4 @@
-# Dear Interviewer I have completed my assesment and also I am sharing few architecture design that I have done based on my experience.
+# Dear Interviewer I have completed my assignment and also I am sharing few architecture design that I have done based on my experience.
 
 # Architecture design 1:
    This is the simple architecture design for testing and demo purposes.Here the EKS is deployed in a public subnet and the application is deployed using a helm chart. The redis can be deployed using aws redis cache in private subnets.
