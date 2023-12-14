@@ -1,0 +1,48 @@
+{
+    "Version" : "2012-10-17",
+    "Id" : "kms-key",
+    "Statement" : [{
+      "Sid" : "Allow access through for all principals in the account that are authorized to use kms",
+      "Effect" : "Allow",
+      "Principal" : {
+        "AWS" : "*"
+      },
+      "Action" : ["kms:Encrypt", "kms:Decrypt", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:CreateGrant", "kms:DescribeKey", "kms:RetireGrant"],
+      "Resource" : "*",
+      "Condition" : {
+        "StringEquals" : {
+          "kms:CallerAccount" : 492790040220,
+          "kms:ViaService"    : "s3.ap-southeast-1.amazonaws.com"
+          
+        }
+      }
+
+      },
+      {
+      "Sid" : "Enable IAM User Permissions",
+      "Effect" : "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::492790040220:root"
+      },
+      "Action" : "kms:*",
+      "Resource" : "*"
+    },
+    {
+    "Sid" : "Enable IAM User Permissions for tooling vm",
+    "Effect" : "Allow",
+    "Principal": {
+      "AWS": [
+          "arn:aws:iam::691123998498:role/iam-role-br2s-mgtmznp-dmtvm-r2",
+          "arn:aws:iam::691123998498:role/iam-role-br2s-mgtmznp-dmtvm",
+          "arn:aws:iam::691123998498:role/iam-role-br2s-mgtmznp-apptvm"
+      ]
+    },
+    "Action" : [
+      "kms:Decrypt",
+      "kms:GenerateDataKey*"
+    ],
+    "Resource" : "*"
+  }
+  ]
+  }
+

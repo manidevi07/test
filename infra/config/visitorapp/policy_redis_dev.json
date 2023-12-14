@@ -1,0 +1,31 @@
+{
+    "Version" : "2012-10-17",
+    "Id" : "kms-key",
+    "Statement" : [{
+      "Sid" : "Allow access through for all principals in the account that are authorized to use kms",
+      "Effect" : "Allow",
+      "Principal" : {
+        "AWS" : "*"
+      },
+      "Action" : ["kms:Encrypt", "kms:Decrypt", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:CreateGrant", "kms:DescribeKey", "kms:RetireGrant"],
+      "Resource" : "*",
+      "Condition" : {
+        "StringEquals" : {
+          "kms:CallerAccount" : 492790040220,
+          "kms:ViaService"    : "elasticache.ap-southeast-1.amazonaws.com"
+          
+        }
+      }
+
+      },
+      {
+      "Sid" : "Enable IAM User Permissions",
+      "Effect" : "Allow",
+      "Principal" : {
+        "AWS" : "arn:aws:iam::492790040220:root"
+      },
+      "Action" : "kms:*",
+      "Resource" : "*"
+    }]
+  }
+
