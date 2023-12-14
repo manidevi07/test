@@ -19,5 +19,5 @@
 # Deployment:
   Based on use case I created two seprate folder. One for infra deployment and other for application deployment, As added the corresponding .gitlab-ci.yaml file for CICD piplein deployment. I have used php code for this application and I tested in my localmachine on minikube with nodeport service using helm deployment. I am able to achieve the output as I attached the image that can able to connect with local redis cluster. In aws I am facing http socket error, that I am working on 
 
-![Browser Page](Screenshot 2023-12-14 at 3.19.42 PM.png)
-(Screenshot 2023-12-14 at 3.19.42 PM.png)
+![Browser Page](browserpage.png)
+![Browser Page](redisinsight.png)
