@@ -21,3 +21,6 @@
 
 ![Browser Page](browserpage.png)
 ![Browser Page](redisinsight.png)
+
+In aws I am facing http socket error, that I am working on, This issue is comming only when I give redis url to connect.But I tested I can able to connect from redis cache. 
+![Browser Page](phperror.png)
